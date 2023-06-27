@@ -13,9 +13,16 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import Divider from '@mui/material/Divider';
+import SearchIcon from '@mui/icons-material/Search';
+import DirectionsIcon from '@mui/icons-material/Directions';
+
 import routes from '../routes/routes';
 import { useAppDispatch } from '../store/hooks';
 import { logout } from '../store/modules/UserSlice';
+import { Grid, TextField } from '@mui/material';
 
 const settings = ['Logout'];
 
@@ -41,7 +48,6 @@ const ResponsiveAppBar: React.FC = () => {
   const handleCloseUserMenu = () => {
     dispatch(logout());
     navigate('/');
-
   };
 
   const handleClose = () => {
@@ -52,94 +58,71 @@ const ResponsiveAppBar: React.FC = () => {
     <AppBar position="static" sx={{ backgroundColor: 'primary' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              <MenuItem onClick={() => handleCloseNavMenu('/notes')}>
-                <Typography textAlign="center">Recados</Typography>
-              </MenuItem>
-            </Menu>
-          </Box>
+          <Grid container display={'flex'} width={'100%'} height={'100%'} justifyContent={'space-around'} alignItems={'center'}>
+            <Grid item>
+              <Typography
+                variant="h5"
+                component="a"
+                sx={{
+                  mr: 2,
+                  display: { xs: 'none', sm: 'flex', alignSelf: 'center' },
+                  color: 'inherit',
+                  textDecoration: 'none'
+                }}>
+                Notas
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Paper
+                component="form"
+                sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400, borderRadius: '50px'}}
+              >
+                <InputBase
+                  sx={{ ml: 1, flex: 1 }}
+                  placeholder="Pesquisar"
+                  inputProps={{ 'aria-label': 'Pesquisar' }}
+                />
+                <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                  <SearchIcon />
+                </IconButton>
+              </Paper>
+            </Grid>
+            <Grid item>
+              <Box sx={{ flexGrow: 0 }}>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar sx={{ color: '#638566', bgcolor: '#acc69b' }} src="/static/images/avatar/2.jpg" />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: '45px' }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right'
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right'
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleClose}
+                >
+                  {settings.map(setting => (
+                    <MenuItem key={setting}>
+                      <Typography onClick={handleCloseUserMenu} textAlign="center">
+                        {setting}
+                      </Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+            </Grid>
+          </Grid>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {routes.map((page) => (
-              <Button key={page.url} onClick={() => handleCloseNavMenu(page.url)} sx={{ my: 2, color: 'white', display: 'block' }}>
-                {page.label}
-              </Button>
-            ))}
-          </Box>
-
-          <Typography
-            variant="body1"
-            component="a"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', sm: 'flex', alignSelf: 'center' },
-
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-                                    Bem vindo(a)
-          </Typography>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar sx={{ color: '#638566', bgcolor: '#acc69b' }} /* alt={userLogged.toUpperCase()} */ src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleClose}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting}>
-                  <Typography onClick={handleCloseUserMenu} textAlign="center">
-                    {setting}
-                  </Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+         
         </Toolbar>
       </Container>
     </AppBar>

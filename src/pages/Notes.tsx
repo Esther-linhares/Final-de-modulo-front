@@ -8,6 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Fab from '@mui/material/Fab';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import AddIcon from '@mui/icons-material/Add';
@@ -21,6 +22,7 @@ import ModalEdit from '../components/ModalEdit';
 import { useNavigate } from 'react-router-dom';
 import ModalDelete from '../components/ModalDelete';
 import { getTaskAsyncThunk, taskArchiveAsyncThunk } from '../store/modules/UserSlice';
+import { relative } from 'path';
 
 const Notes: React.FC = () => {
   const [archive, setArchive] = useState(false);
@@ -83,7 +85,7 @@ const Notes: React.FC = () => {
   return (
     <Grid container height={'100vh'} display="flex" justifyContent="center">
       <Grid item sm={12} height="100%">
-        <Box height="100%" paddingX={4} bgcolor="#f6f6f6">
+        <Box height="100%" paddingX={4} bgcolor="#fafafa"  boxShadow={4}>
           <Typography paddingY={2} variant="h4">
             {archive ? 'Recados Arquivados' : 'Todos os recados'}
           </Typography>
@@ -153,27 +155,6 @@ const Notes: React.FC = () => {
           </Grid>
         </Box>
       </Grid>
-      {/*  <Typography sx={{ position: 'absolute', bottom: '20px' }}>
-        {archive ? (
-          <>
-            <Typography>
-              <IconButton color="primary" onClick={page}>
-                <ArrowBackIosNewIcon />
-              </IconButton>
-              Todos os recados
-            </Typography>
-          </>
-        ) : (
-          <>
-            <Typography>
-              Arquivados
-              <IconButton color="primary" onClick={page}>
-                <ArrowForwardIosIcon />
-              </IconButton>
-            </Typography>
-          </>
-        )}
-      </Typography> */}
       <Typography
         sx={{
           position: 'absolute',
@@ -182,24 +163,19 @@ const Notes: React.FC = () => {
         variant="h5"
       >
         {archive ? (
-          <>
-            <Typography>
-              {' '}
-              <IconButton color="primary" onClick={page}>
-                <ArrowBackIosNewIcon />
-              </IconButton>
-              Todos os recados
-            </Typography>
-          </>
+          <Grid item display={'flex'} justifyContent={'center'} alignItems={'center'}>
+            <IconButton color="primary" onClick={page}>
+              <ArrowBackIosNewIcon />
+            </IconButton>
+            <Typography>Todos os recados</Typography>
+          </Grid>
         ) : (
-          <>
-            <Typography>
-              Arquivados
-              <IconButton color="primary" onClick={page}>
-                <ArrowForwardIosIcon />
-              </IconButton>
-            </Typography>
-          </>
+          <Grid item display={'flex'} justifyContent={'center'} alignItems={'center'}>
+            <Typography>Arquivados</Typography>
+            <IconButton color="primary" onClick={page}>
+              <ArrowForwardIosIcon />
+            </IconButton>
+          </Grid>
         )}
       </Typography>
       <Fab
