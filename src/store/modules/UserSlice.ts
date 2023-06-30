@@ -24,7 +24,10 @@ interface defaultTask {
   email: string,
   id: number,
 }
-
+interface filter {
+  email: string,
+  title: string,
+}
 interface newTask {
   email: string,
   title: string,
@@ -36,6 +39,7 @@ interface updateTask {
   title: string,
   description: string
 }
+
 
 export const loginAsyncThunk = createAsyncThunk('userLogin', async ({ email, password }: userLogin) => {
   const response = await api.post('/login', {
@@ -65,14 +69,22 @@ export const taskCreateAsyncThunk = createAsyncThunk(
     });
     return response.data;
   });
+  
 
 export const getTaskAsyncThunk = createAsyncThunk(
   'getTask',
   async (email: string) => {
-    console.log(email);
     const response = await api.get(`/tasks/${email}`);
     return response.data;
   }); 
+
+export const getFilterAsyncThunk = createAsyncThunk(
+  'getFilter',
+  async({email,title} : filter) => {
+    const params = `?title=${title}`;
+    const response = await api.get(`tasks/${email}/filter${params}`);
+    return response.data;
+  });
 
 export const taskDeleteAsyncThunk = createAsyncThunk(
   'taskDelete',
@@ -112,6 +124,9 @@ export const usuarioLogadoSlice = createSlice({
       state.userLogged.tasks = [];
     });
     builder.addCase(getTaskAsyncThunk.fulfilled, (state, action) =>{
+      state.userLogged.tasks = action.payload;
+    });
+    builder.addCase(getFilterAsyncThunk.fulfilled, (state, action) =>{
       state.userLogged.tasks = action.payload;
     });
     builder.addCase(taskCreateAsyncThunk.fulfilled, (state, action) => {

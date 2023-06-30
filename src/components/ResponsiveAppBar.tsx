@@ -15,13 +15,9 @@ import { useNavigate } from 'react-router-dom';
 
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
 import SearchIcon from '@mui/icons-material/Search';
-import DirectionsIcon from '@mui/icons-material/Directions';
-
-import routes from '../routes/routes';
-import { useAppDispatch } from '../store/hooks';
-import { logout } from '../store/modules/UserSlice';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { getFilterAsyncThunk,  logout } from '../store/modules/UserSlice';
 import { Grid, TextField } from '@mui/material';
 
 const settings = ['Logout'];
@@ -29,20 +25,12 @@ const settings = ['Logout'];
 const ResponsiveAppBar: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [textFilter, setTextFilter] = React.useState('');
+  const userLogged = useAppSelector(state => state.userLogged.userLogged);
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = (url: string) => {
-    setAnchorElNav(null);
-
-    navigate(url);
   };
 
   const handleCloseUserMenu = () => {
@@ -52,6 +40,11 @@ const ResponsiveAppBar: React.FC = () => {
 
   const handleClose = () => {
     setAnchorElUser(null);
+  };
+
+  const actionFilter= () => {
+    dispatch(getFilterAsyncThunk({email: userLogged.email, title: textFilter}));
+    console.log('foii');
   };
 
   return (
@@ -77,12 +70,13 @@ const ResponsiveAppBar: React.FC = () => {
                 component="form"
                 sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400, borderRadius: '50px'}}
               >
-                <InputBase
+                <InputBase  value={textFilter} 
+                  onChange={(event) => setTextFilter(event.target.value)} 
                   sx={{ ml: 1, flex: 1 }}
                   placeholder="Pesquisar"
                   inputProps={{ 'aria-label': 'Pesquisar' }}
                 />
-                <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={actionFilter}>
                   <SearchIcon />
                 </IconButton>
               </Paper>
