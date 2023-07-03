@@ -2,8 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import TUser from '../../types/TypeUser';
 import api from '../../service';
 
-
-
 interface userloggedstate {
   userLogged: TUser;
 }
@@ -113,7 +111,6 @@ export const taskArchiveAsyncThunk = createAsyncThunk(
     return response.data;
   });
 
-
 export const usuarioLogadoSlice = createSlice({
   name: 'userLoggad',
   initialState,
@@ -126,9 +123,9 @@ export const usuarioLogadoSlice = createSlice({
     builder.addCase(getTaskAsyncThunk.fulfilled, (state, action) =>{
       state.userLogged.tasks = action.payload;
     });
-    builder.addCase(getFilterAsyncThunk.fulfilled, (state, action) =>{
+    /*  builder.addCase(getFilterAsyncThunk.fulfilled, (state, action) =>{
       state.userLogged.tasks = action.payload;
-    });
+    }); */
     builder.addCase(taskCreateAsyncThunk.fulfilled, (state, action) => {
       state.userLogged.tasks.push(action.payload);
     });

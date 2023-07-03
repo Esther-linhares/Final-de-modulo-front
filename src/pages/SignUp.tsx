@@ -1,7 +1,8 @@
-import { Grid, Box, Typography, Link } from '@mui/material';
+import { Grid, Box, } from '@mui/material';
 import React from 'react';
 import Form from '../components/FormLogin';
 import HeaderForm from '../components/HeaderForm';
+
 
 const SignUp: React.FC = () => {
 

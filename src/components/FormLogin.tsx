@@ -8,8 +8,9 @@ import {
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { userCreateAsyncThunk, loginAsyncThunk,   getTaskAsyncThunk } from '../store/modules/UserSlice';
+import { userCreateAsyncThunk, loginAsyncThunk,   getTaskAsyncThunk } from '../store/modules/UserLoggedSlice';
 import AlertComponent from './Alert';
+import { getUsersAsyncThunk } from '../store/modules/UsersSlice';
 
 interface FormProps {
 	mode: 'signin' | 'signup';
@@ -24,6 +25,7 @@ const Form: React.FC<FormProps> = ({ mode, textButton }) => {
   const [errorEmail, setErrorEmail] = useState(false);
   const [errorPassword, setErrorPassword] = useState(false);
   const [errorRepassword, setErrorRepassword] = useState(false);
+  const listUsers =  useAppSelector(state => state.users.users);
   /* const users = useAppSelector(selectAllUsers);*/
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -55,21 +57,16 @@ const Form: React.FC<FormProps> = ({ mode, textButton }) => {
     }
   }, [email, password, repassword, mode]);
 
-  /*useEffect(() => {
-    // console.log(users);
-    localStorage.setItem('listaUsuarios', JSON.stringify(users));
-  }, [users]);*/
-
   function handleSubmit(evento: React.FormEvent<HTMLFormElement>) {
     evento.preventDefault();
-
+    dispatch(getUsersAsyncThunk());
     if (mode === 'signin') {
       const user = {
         email: email,
         password: password,
       };
 
-      /*const userExist = users.find(
+      const userExist = listUsers.find(
         (value) =>
           value.email === user.email &&
 					value.password === user.password
@@ -84,10 +81,13 @@ const Form: React.FC<FormProps> = ({ mode, textButton }) => {
           setShowAlert({ display: 'none', success: true, text: '' });
         }, 1000);
         return;
-      }*/
+      } 
       
       dispatch(loginAsyncThunk(user));
-      dispatch(getTaskAsyncThunk(user.email));
+      setTimeout(() => {
+        dispatch(getTaskAsyncThunk(user.email));
+        dispatch(getUsersAsyncThunk());
+      }, 200);
       navigate('/notes');
     } else {
       const newUser = {
@@ -96,7 +96,7 @@ const Form: React.FC<FormProps> = ({ mode, textButton }) => {
         repassword,
       };
 
-      /*const retorno = users.some(
+      const retorno = listUsers.some(
         (value) => value.email === newUser.email
       );
       if (retorno) {
@@ -118,7 +118,7 @@ const Form: React.FC<FormProps> = ({ mode, textButton }) => {
       });
       setTimeout(() => {
         setShowAlert({ display: 'none', success: true, text: '' });
-      }, 1000);*/
+      }, 1000);
 
       dispatch(userCreateAsyncThunk(newUser));
     }

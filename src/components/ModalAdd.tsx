@@ -9,7 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Box } from '@mui/system';
 import TTask from '../types/TypeTask';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { getTaskAsyncThunk, taskCreateAsyncThunk } from '../store/modules/UserSlice';
+import { getTaskAsyncThunk, taskCreateAsyncThunk } from '../store/modules/UserLoggedSlice';
 
 interface ModalInputsProps {
     openModal: boolean;

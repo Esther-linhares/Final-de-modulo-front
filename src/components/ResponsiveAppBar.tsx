@@ -17,8 +17,8 @@ import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { getFilterAsyncThunk,  logout } from '../store/modules/UserSlice';
-import { Grid, TextField } from '@mui/material';
+import { getFilterAsyncThunk,  logout } from '../store/modules/UserLoggedSlice';
+import { Grid } from '@mui/material';
 
 const settings = ['Logout'];
 
@@ -43,8 +43,7 @@ const ResponsiveAppBar: React.FC = () => {
   };
 
   const actionFilter= () => {
-    dispatch(getFilterAsyncThunk({email: userLogged.email, title: textFilter}));
-    console.log('foii');
+    dispatch(getFilterAsyncThunk({email: userLogged.email, title: textFilter})); 
   };
 
   return (

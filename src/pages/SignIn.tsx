@@ -4,23 +4,22 @@ import React from 'react';
 import Form from '../components/FormLogin';
 import HeaderForm from '../components/HeaderForm';
 
-
 const SignIn: React.FC = () => {
+
   return (
     <Grid container height="100vh">
-      <Grid
+      <Grid display={'flex'} component='section'
         item 
-        xs={false}
-        sm={4}
+        sm={false}
         md={7}
         sx={{
-          backgroundImage: 'url(/assets/img/notesImage.png)',
+          backgroundImage: 'url(/assets/img/imagemLogin.png)',
           backgroundPosition: 'center',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repete',
+          backgroundSize: '70%',
+          backgroundRepeat: 'no-repeat',
         }}
       />
-      <Grid item xs={12} sm={8} md={5}>
+      <Grid item sm={12} md={5}>
         <Box
           component="section"
           marginY={8}

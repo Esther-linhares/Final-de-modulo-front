@@ -9,7 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Box } from '@mui/system';
 import TTask from '../types/TypeTask';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { getTaskAsyncThunk, taskDeleteAsyncThunk } from '../store/modules/UserSlice';
+import { getTaskAsyncThunk, taskDeleteAsyncThunk } from '../store/modules/UserLoggedSlice';
 
 interface ModalDeleteProps {
     deleteTask: TTask,

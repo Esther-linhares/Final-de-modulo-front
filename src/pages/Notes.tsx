@@ -21,8 +21,8 @@ import TTask from '../types/TypeTask';
 import ModalEdit from '../components/ModalEdit';
 import { useNavigate } from 'react-router-dom';
 import ModalDelete from '../components/ModalDelete';
-import { getTaskAsyncThunk, taskArchiveAsyncThunk } from '../store/modules/UserSlice';
-import { relative } from 'path';
+import { getTaskAsyncThunk, taskArchiveAsyncThunk } from '../store/modules/UserLoggedSlice';
+
 
 const Notes: React.FC = () => {
   const [archive, setArchive] = useState(false);
@@ -30,7 +30,7 @@ const Notes: React.FC = () => {
   const listTaks = useAppSelector(state => state.userLogged.userLogged.tasks);
   const dispatch = useAppDispatch();
   const [task, setTask] = useState({} as TTask);
-  const listarchives = listTaks.filter(item => item.archive === true);
+  const listarchives = listTaks.filter(t => t.archive === true);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
   const [selectedTask, setSelectedTask] = useState({} as TTask);
